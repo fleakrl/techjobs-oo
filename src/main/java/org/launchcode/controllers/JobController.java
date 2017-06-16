@@ -1,7 +1,6 @@
 package org.launchcode.controllers;
 
-import org.launchcode.models.CoreCompetency;
-import org.launchcode.models.Job;
+import org.launchcode.models.*;
 import org.launchcode.models.forms.JobForm;
 import org.launchcode.models.data.JobData;
 import org.springframework.stereotype.Controller;
@@ -55,6 +54,29 @@ public class JobController {
             createdJob.setCoreCompetency(competencyOptional.get());
         }
 
+        Optional<Employer> employerOptional = jobForm.getEmployers().stream()
+                .filter(employer -> employer.getId()==jobForm.getEmployerId())
+                .findFirst();
+        if(employerOptional.isPresent()){
+            createdJob.setEmployer(employerOptional.get());
+        }
+
+        Optional<Location> locationOptional = jobForm.getLocations().stream()
+                .filter(location -> location.getValue().equals(jobForm.getLocation()))
+                .findFirst();
+        if(locationOptional.isPresent()){
+            createdJob.setLocation(locationOptional.get());
+        }
+
+
+        Optional<PositionType> positionTypeOptional = jobForm.getPositionTypes().stream()
+                .filter(positionType -> positionType.getValue().equals(jobForm.getPositionType()))
+                .findFirst();
+        if(positionTypeOptional.isPresent()){
+            createdJob.setPositionType(positionTypeOptional.get());
+        }
+
+        model.addAttribute("job", createdJob);
         return "job-detail";
 
     }
