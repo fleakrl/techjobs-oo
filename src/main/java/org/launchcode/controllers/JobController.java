@@ -1,5 +1,6 @@
 package org.launchcode.controllers;
 
+import org.launchcode.models.CoreCompetency;
 import org.launchcode.models.Job;
 import org.launchcode.models.forms.JobForm;
 import org.launchcode.models.data.JobData;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Created by LaunchCode
@@ -21,7 +23,7 @@ public class JobController {
     private JobData jobData = JobData.getInstance();
 
     // The detail display for a given Job at URLs like /job?id=17
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String index(Model model, int id) {
 
         // TODO #1 - get the Job with the given ID and pass it into the view
@@ -44,7 +46,14 @@ public class JobController {
         // redirect to the job detail view for the new Job.
         Job createdJob = new Job();
         createdJob.setName(jobForm.getName());
-//        createdJob.setCoreCompetency(jobForm.getCoreCompetency());
+
+        Optional<CoreCompetency> competencyOptional = jobForm.getCoreCompetencies().stream()
+                .filter(competency -> competency.getValue().equals(jobForm.getCoreCompetency()))
+                .findFirst();
+
+        if (competencyOptional.isPresent()) {
+            createdJob.setCoreCompetency(competencyOptional.get());
+        }
 
         return "job-detail";
 
