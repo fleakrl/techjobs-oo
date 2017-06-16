@@ -42,8 +42,11 @@ public class JobController {
         // TODO #6 - Validate the JobForm model, and if valid, create a
         // new Job and add it to the jobData data store. Then
         // redirect to the job detail view for the new Job.
+        Job createdJob = new Job();
+        createdJob.setName(jobForm.getName());
+//        createdJob.setCoreCompetency(jobForm.getCoreCompetency());
 
-        return "";
+        return "job-detail";
 
     }
 }
