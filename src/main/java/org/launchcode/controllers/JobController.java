@@ -76,6 +76,9 @@ public class JobController {
             createdJob.setPositionType(positionTypeOptional.get());
         }
 
+        JobData jobData = JobData.getInstance();
+                jobData.add(createdJob);
+
         model.addAttribute("job", createdJob);
         return "job-detail";
 
