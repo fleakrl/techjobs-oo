@@ -90,7 +90,7 @@ public class JobController {
 
         model.addAttribute("job", createdJob);
 
-        return "job-detail";
+        return "redirect:?id=" + createdJob.getId();
 
     }
 
